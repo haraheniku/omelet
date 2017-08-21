@@ -1,0 +1,21 @@
+opam-version: "1.2"
+name: "omelet"
+version: "0.1"
+maintainer: "haraheniku <haraheniku@gmail.com>"
+authors: "haraheniku <haraheniku@gmail.com>"
+homepage: "https://github.com/haraheniku/omelet"
+bug-reports: "https://github.com/haraheniku/omelet/issues"
+license: "MIT"
+dev-repo: "https://github.com/haraheniku/omelet"
+build: [
+  [omake]
+]
+install: [
+  ["omake" "install" "PREFIX=%{prefix}%"]
+]
+remove: [
+  ["omake" "uninstall" "PREFIX=%{prefix}%"]
+]
+depends: [
+ "ocamlfind" {build}
+]

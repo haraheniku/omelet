@@ -1,0 +1,7 @@
+name="omelet"
+version="0.1"
+description="Omelet is garbage"
+requires=""
+archive(byte)="omelet.cmo"
+archive(native)="omelet.cmx"
+linkopts = ""

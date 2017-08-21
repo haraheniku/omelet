@@ -1,6 +1,8 @@
-.PHONY: all install clean
+.PHONY: all clean install uninstall
 
 .SUBDIRS: src
+
+NAME = omelet
 
 clean:
 	rm -f *~ *.opt *.cmi *.cmx *.o *.omc

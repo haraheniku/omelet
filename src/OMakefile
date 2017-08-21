@@ -1,4 +1,4 @@
-.PHONY: all clean
+.PHONY: all clean install uninstall
 
 FILES[] =
 	omInterfaces
@@ -7,7 +7,26 @@ FILES[] =
 
 LIB = omelet
 
+NATIVE_ENABLED = true
+BYTE_ENABLED = true
+
 .DEFAULT: $(OCamlLibrary $(LIB), $(FILES))
 
+INSTALL_FILES[] =
+	META
+	*.mli
+	*.cma
+	*.cmi
+	*.cmo
+	*.cmx
+	*.cmxa
+	*.a
+
+install: all
+	ocamlfind install $(LIB) $(INSTALL_FILES)
+
+uninstall:
+	ocamlfind remove $(LIB)
+
 clean:
-	rm -f *~ *.opt *.cmi *.cmx *.o *.omc *.cma *.cmxa $(LIB) *.a
+	rm -f *~ *.opt *.cmi *.cmx *.o *.omc *.cmo *.cma *.cmxa $(LIB) *.a
