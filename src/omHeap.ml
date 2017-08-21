@@ -9,15 +9,10 @@ module type S =
     val top : t -> el option
     val remove : t -> t
     val of_list : el list -> t
+    val to_list : t -> el list
   end
 
-module type OrderedType =
-  sig
-    type t
-    val compare : t -> t -> int
-  end
-
-module Make(Ord: OrderedType) : S with type el = Ord.t = struct
+module Make(Ord: OmInterfaces.OrderedType) = struct
   type el = Ord.t
 
   type t =
@@ -30,7 +25,7 @@ module Make(Ord: OrderedType) : S with type el = Ord.t = struct
     | Empty -> 0
     | Node (rk, _, _, _) -> rk
 
-  let add_tree x l r =
+  let add_node x l r =
     if rank l >= rank r then
       Node (rank r + 1, x, l, r)
     else
@@ -42,18 +37,18 @@ module Make(Ord: OrderedType) : S with type el = Ord.t = struct
     | (Empty, h) -> h
     | (Node (_, x, l1, r1), Node (_, y, l2, r2)) ->
         if Ord.compare x y <= 0 then
-          add_tree x l1 (merge r1 h2)
+          add_node x l1 (merge r1 h2)
         else
-          add_tree y l2 (merge h1 r2)
+          add_node y l2 (merge h1 r2)
 
   let rec add h x =
     match h with
     | Empty -> Node (1, x, Empty, Empty)
     | Node (_, y, l, r) as n ->
         if Ord.compare x y <= 0 then
-          add_tree x n Empty
+          add_node x n Empty
         else
-          add_tree y l (add r x)
+          add_node y l (add r x)
 
   let top = function
     | Empty -> None
@@ -64,4 +59,9 @@ module Make(Ord: OrderedType) : S with type el = Ord.t = struct
     | Node (_, _, l, r) -> merge l r
 
   let of_list l = List.fold_left add Empty l
+
+  let rec to_list = function
+    | Empty -> []
+    | Node (_, x, l, r) ->
+        x :: to_list (merge l r)
 end

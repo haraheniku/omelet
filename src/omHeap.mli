@@ -1,9 +1,3 @@
-module type OrderedType =
-  sig
-    type t
-    val compare : t -> t -> int
-  end
-
 module type S =
   sig
     type el
@@ -14,6 +8,7 @@ module type S =
     val top : t -> el option
     val remove : t -> t
     val of_list : el list -> t
+    val to_list : t -> el list
   end
 
-module Make (Ord : OrderedType) : S with type el = Ord.t
+module Make (Ord : OmInterfaces.OrderedType) : S with type el = Ord.t

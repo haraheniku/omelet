@@ -1,0 +1,13 @@
+.PHONY: all clean
+
+FILES[] =
+	omInterfaces
+	omHeap
+	omelet
+
+LIB = omelet
+
+.DEFAULT: $(OCamlLibrary $(LIB), $(FILES))
+
+clean:
+	rm -f *~ *.opt *.cmi *.cmx *.o *.omc *.cma *.cmxa $(LIB) *.a
